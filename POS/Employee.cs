@@ -114,30 +114,45 @@ namespace POS
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Regex conNo = new Regex(@"0[0-9]{9,9}");
-            if (!String.IsNullOrEmpty(txtName.Text.Trim()) && !String.IsNullOrEmpty(txtAddress.Text.Trim()) && conNo.IsMatch(txtContact.Text.Trim()) && !String.IsNullOrEmpty(txtUsername.Text.Trim()) && !String.IsNullOrEmpty(txtPass.Text.Trim()))
+            DBConn ConnEmp = new DBConn();
+            ConnEmp.cmd.CommandText = "SELECT Uname FROM Employee WHERE Uname=@Uname";
+            ConnEmp.cmd.Parameters.Add("@Uname",SqlDbType.VarChar).Value = txtUsername.Text.Trim();
+            ConnEmp.ada.SelectCommand = ConnEmp.cmd;
+            DataTable dtEmployee = new DataTable();
+            ConnEmp.ada.Fill(dtEmployee);
+            if (dtEmployee.Rows.Count == 0)
             {
-                DialogResult saveConfirm = MessageBox.Show("Are you want to Save Employee " + txtRegID.Text + "?..","Save Confirm",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
-                if (saveConfirm == DialogResult.Yes)
+                Regex conNo = new Regex(@"0[0-9]{9,9}");
+                if (!String.IsNullOrEmpty(txtName.Text.Trim()) && !String.IsNullOrEmpty(txtAddress.Text.Trim()) && conNo.IsMatch(txtContact.Text.Trim()) && !String.IsNullOrEmpty(txtUsername.Text.Trim()) && !String.IsNullOrEmpty(txtPass.Text.Trim()))
                 {
-                    DBConn Conn = new DBConn();
-                    Conn.cmd.CommandText = "INSERT INTO EMPLOYEE VALUES(@ID,@Name,@Address,@Contact,@Username,@Pass)";
-                    Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtName.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = txtAddress.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Contact", SqlDbType.VarChar).Value = txtContact.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Username", SqlDbType.VarChar).Value = txtUsername.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Pass", SqlDbType.VarChar).Value = txtPass.Text.Trim();
-                    Conn.cmd.ExecuteNonQuery();
-                    getNewID();
-                    DataLoad();
-                    MessageBox.Show("Successfully Saved Employee"+txtRegID.Text+"!!","Successfully Saved",MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Clear();
-                    txtName.Focus();
+                    DialogResult saveConfirm = MessageBox.Show("Are you want to Save Employee " + txtRegID.Text + "?..", "Save Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (saveConfirm == DialogResult.Yes)
+                    {
+                        DBConn Conn = new DBConn();
+                        Conn.cmd.CommandText = "INSERT INTO EMPLOYEE VALUES(@ID,@Name,@Address,@Contact,@Username,@Pass)";
+                        Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtName.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = txtAddress.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Contact", SqlDbType.VarChar).Value = txtContact.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Username", SqlDbType.VarChar).Value = txtUsername.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Pass", SqlDbType.VarChar).Value = txtPass.Text.Trim();
+                        Conn.cmd.ExecuteNonQuery();
+                        getNewID();
+                        DataLoad();
+                        MessageBox.Show("Successfully Saved Employee" + txtRegID.Text + "!!", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Clear();
+                        txtName.Focus();
+                    }
+                }
+                else
+                {
+                    lblError.Text = "Please check validity of data you entered!..";
+                    lblError.Visible = true;
                 }
             }
             else
             {
+                lblError.Text = "Username must be unique..!!";
                 lblError.Visible = true;
             }
         }
@@ -149,29 +164,44 @@ namespace POS
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            Regex conNo = new Regex(@"0[0-9]{9,9}");
-            if (!String.IsNullOrEmpty(txtName.Text.Trim()) && !String.IsNullOrEmpty(txtAddress.Text.Trim()) && conNo.IsMatch(txtContact.Text.Trim()) && !String.IsNullOrEmpty(txtUsername.Text.Trim()) && !String.IsNullOrEmpty(txtPass.Text.Trim()))
+            DBConn ConnEmp = new DBConn();
+            ConnEmp.cmd.CommandText = "SELECT Uname FROM Employee WHERE Uname=@Uname";
+            ConnEmp.cmd.Parameters.Add("@Uname", SqlDbType.VarChar).Value = txtUsername.Text.Trim();
+            ConnEmp.ada.SelectCommand = ConnEmp.cmd;
+            DataTable dtEmployee = new DataTable();
+            ConnEmp.ada.Fill(dtEmployee);
+            if (dtEmployee.Rows.Count == 0)
             {
-                DialogResult upConfirm = MessageBox.Show("Are you want to Update Employee No " + txtRegID.Text + "?..", "Update Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (upConfirm == DialogResult.Yes)
+                Regex conNo = new Regex(@"0[0-9]{9,9}");
+                if (!String.IsNullOrEmpty(txtName.Text.Trim()) && !String.IsNullOrEmpty(txtAddress.Text.Trim()) && conNo.IsMatch(txtContact.Text.Trim()) && !String.IsNullOrEmpty(txtUsername.Text.Trim()) && !String.IsNullOrEmpty(txtPass.Text.Trim()))
                 {
-                    DBConn Conn = new DBConn();
-                    Conn.cmd.CommandText = "UPDATE Employee SET Name=@Name, Address=@Address, ContactNo=@Contact, Uname=@Uname, Passwd=@Passwd WHERE ID=@ID";
-                    Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtName.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = txtAddress.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Contact", SqlDbType.VarChar).Value = txtContact.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Uname", SqlDbType.VarChar).Value = txtUsername.Text.Trim();
-                    Conn.cmd.Parameters.Add("@Passwd", SqlDbType.VarChar).Value = txtPass.Text.Trim();
-                    Conn.cmd.ExecuteNonQuery();
-                    DataLoad();
-                    MessageBox.Show("Successfully Updated Employee No " + txtRegID.Text + "!!", "Successfully Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    getDataFromDGV();
-                    txtName.Focus();
+                    DialogResult upConfirm = MessageBox.Show("Are you want to Update Employee No " + txtRegID.Text + "?..", "Update Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (upConfirm == DialogResult.Yes)
+                    {
+                        DBConn Conn = new DBConn();
+                        Conn.cmd.CommandText = "UPDATE Employee SET Name=@Name, Address=@Address, ContactNo=@Contact, Uname=@Uname, Passwd=@Passwd WHERE ID=@ID";
+                        Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtName.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = txtAddress.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Contact", SqlDbType.VarChar).Value = txtContact.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Uname", SqlDbType.VarChar).Value = txtUsername.Text.Trim();
+                        Conn.cmd.Parameters.Add("@Passwd", SqlDbType.VarChar).Value = txtPass.Text.Trim();
+                        Conn.cmd.ExecuteNonQuery();
+                        DataLoad();
+                        MessageBox.Show("Successfully Updated Employee No " + txtRegID.Text + "!!", "Successfully Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        getDataFromDGV();
+                        txtName.Focus();
+                    }
+                }
+                else
+                {
+                    lblError.Text = "Please check validity of data you entered!..";
+                    lblError.Visible = true;
                 }
             }
             else
             {
+                lblError.Text = "Username must be unique..!!";
                 lblError.Visible = true;
             }
         }
