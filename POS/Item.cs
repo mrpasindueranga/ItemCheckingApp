@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Printing;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace POS
 {
@@ -20,6 +23,7 @@ namespace POS
         private void Item_Load(object sender, EventArgs e)
         {
             DataLoad();
+            loadBarcodeNumber();
         }
 
         public void DataLoad()
@@ -75,13 +79,14 @@ namespace POS
             ConnMax.ada.SelectCommand = ConnMax.cmd;
             DataTable dtItem = new DataTable();
             ConnMax.ada.Fill(dtItem);
-            if (dtItem.Rows.Count == 0)
+            foreach (DataRow row in dtItem.Rows)
             {
-                txtRegID.Text = "ITM-001";
-            }
-            else
-            {
-                foreach (DataRow row in dtItem.Rows)
+                object isNull = row["MAXID"];
+                if (isNull == DBNull.Value)
+                {
+                    txtRegID.Text = "ITM-001";
+                }
+                else
                 {
                     String maxID = row["MAXID"].ToString();
                     txtRegID.Text = maxID.Substring(0, 4) + String.Format("{0:000}", (int.Parse(maxID.Substring(4)) + 1));
@@ -122,6 +127,7 @@ namespace POS
                     DataLoad();
                     MessageBox.Show("Successfully Saved Item" + txtRegID.Text + "!!", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();
+                    loadBarcodeNumber();
                     txtName.Focus();
                 }
             }
@@ -146,6 +152,7 @@ namespace POS
                 Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text;
                 Conn.cmd.ExecuteNonQuery();
                 DataLoad();
+                loadBarcodeNumber();
             }
             else
             {
@@ -203,6 +210,67 @@ namespace POS
             {
                 DataLoad();
             }
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            if(cmbBarcode.SelectedIndex != 0)
+            {
+                PrintDialog printDlg = new PrintDialog();
+                PrintDocument printDoc = new PrintDocument();
+                printDlg.Document = printDoc;
+                printDlg.AllowSelection = true;
+                printDlg.AllowSomePages = true;
+                if (printDlg.ShowDialog() == DialogResult.OK)
+                {
+                    printDoc.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage);
+                    printDoc.Print();
+                }
+            }
+        }
+
+        private void previewBarcode()
+        {
+            BarcodeLib.Barcode barcode = new BarcodeLib.Barcode();
+            Image img = barcode.Encode(BarcodeLib.TYPE.CODE128, cmbBarcode.Text, Color.Black, Color.White, pictureBoxBarcode.Size.Width, pictureBoxBarcode.Size.Height);
+            pictureBoxBarcode.Image = img;
+        }
+
+        private void loadBarcodeNumber()
+        {
+            DBConn Conn = new DBConn();
+            Conn.cmd.CommandText = "SELECT ID FROM Item";
+            Conn.ada.SelectCommand = Conn.cmd;
+            DataTable dtID = new DataTable();
+            Conn.ada.Fill(dtID);
+            cmbBarcode.Items.Add("--SELECT BARCODE--");
+            cmbBarcode.SelectedIndex = 0;
+            
+            foreach(DataRow row in dtID.Rows)
+            {
+                cmbBarcode.Items.Add(row["ID"]);
+            }
+        }
+
+        private void cmbBarcode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cmbBarcode.SelectedIndex != 0)
+            {
+                lblBarcodeError.Visible = false;
+                previewBarcode();
+            }
+            else
+            {
+                lblBarcodeError.Visible = true;
+            }
+        }
+
+        private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Bitmap bm = new Bitmap(pictureBoxBarcode.Width, pictureBoxBarcode.Height);
+            pictureBoxBarcode.DrawToBitmap(bm, new Rectangle(0, 0, pictureBoxBarcode.Width, pictureBoxBarcode.Height));
+            e.Graphics.DrawImage(bm, 0, 0);
+            bm.Dispose();
         }
     }
 }

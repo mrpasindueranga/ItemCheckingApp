@@ -69,18 +69,19 @@ namespace POS
             DBConn ConnMax = new DBConn();
             ConnMax.cmd.CommandText = "SELECT MAX(ID) AS MAXID FROM Employee";
             ConnMax.ada.SelectCommand = ConnMax.cmd;
-            DataTable dtEmployee = new DataTable();
-            ConnMax.ada.Fill(dtEmployee);
-            if (dtEmployee.Rows.Count == 0)
+            DataTable dtItem = new DataTable();
+            ConnMax.ada.Fill(dtItem);
+            foreach (DataRow row in dtItem.Rows)
             {
-                txtRegID.Text = "EMP-001";
-            }
-            else
-            {
-                foreach (DataRow row in dtEmployee.Rows)
+                object isNull = row["MAXID"];
+                if (isNull == DBNull.Value)
                 {
-                   String maxID = row["MAXID"].ToString();
-                   txtRegID.Text = maxID.Substring(0, 4) + String.Format("{0:000}", (int.Parse(maxID.Substring(4)) + 1));
+                    txtRegID.Text = "EMP-001";
+                }
+                else
+                {
+                    String maxID = row["MAXID"].ToString();
+                    txtRegID.Text = maxID.Substring(0, 4) + String.Format("{0:000}", (int.Parse(maxID.Substring(4)) + 1));
                 }
             }
         }
@@ -228,6 +229,7 @@ namespace POS
 
         private void txtPass_OnValueChanged(object sender, EventArgs e)
         {
+            txtPass.isPassword = true;
             lblError.Visible = false;
         }
 

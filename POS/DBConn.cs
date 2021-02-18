@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
+
 namespace POS
 {
     class DBConn
@@ -14,6 +15,7 @@ namespace POS
         public SqlConnection conn = new SqlConnection();
         public SqlCommand cmd = new SqlCommand();
         public SqlDataAdapter ada = new SqlDataAdapter();
+        public SqlDataReader sdr;
 
         public DBConn()
         {

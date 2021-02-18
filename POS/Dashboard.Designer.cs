@@ -232,6 +232,7 @@
             this.bunifuFlatButton2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.bunifuFlatButton2.Textcolor = System.Drawing.Color.White;
             this.bunifuFlatButton2.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuFlatButton2.Click += new System.EventHandler(this.bunifuFlatButton2_Click);
             // 
             // bunifuFlatButton1
             // 
@@ -268,6 +269,7 @@
             this.bunifuFlatButton1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.bunifuFlatButton1.Textcolor = System.Drawing.Color.White;
             this.bunifuFlatButton1.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuFlatButton1.Click += new System.EventHandler(this.bunifuFlatButton1_Click);
             // 
             // btnExit
             // 
@@ -275,7 +277,7 @@
             this.btnExit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(233)))), ((int)(((byte)(31)))), ((int)(((byte)(42)))));
             this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnExit.BorderRadius = 0;
-            this.btnExit.ButtonText = "Exit";
+            this.btnExit.ButtonText = "Logout";
             this.btnExit.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnExit.DisabledColor = System.Drawing.Color.Gray;
             this.btnExit.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -300,7 +302,7 @@
             this.btnExit.selected = false;
             this.btnExit.Size = new System.Drawing.Size(194, 42);
             this.btnExit.TabIndex = 0;
-            this.btnExit.Text = "Exit";
+            this.btnExit.Text = "Logout";
             this.btnExit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnExit.Textcolor = System.Drawing.Color.White;
             this.btnExit.TextFont = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -322,6 +324,7 @@
             this.panelLoad.Name = "panelLoad";
             this.panelLoad.Size = new System.Drawing.Size(569, 456);
             this.panelLoad.TabIndex = 7;
+            this.panelLoad.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLoad_Paint);
             // 
             // timerDate
             // 

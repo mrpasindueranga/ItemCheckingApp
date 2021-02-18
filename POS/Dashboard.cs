@@ -19,7 +19,7 @@ namespace POS
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            DialogResult confirmExit = MessageBox.Show("Do you want to Exit?", "Confirm Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult confirmExit = MessageBox.Show("Do you want to Logout?", "Confirm Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirmExit == DialogResult.Yes)
             {
                 btnExit.Enabled = false;
@@ -61,6 +61,38 @@ namespace POS
         private void timerDate_Tick(object sender, EventArgs e)
         {
             lblDate.Text = DateTime.Now.ToString("yyyy/mm/dd HH:MM:ss");
+        }
+
+        private void panelLoad_Paint(object sender, PaintEventArgs e)
+        {
+            Supply supplyFrm = new Supply();
+            supplyFrm.TopLevel = false;
+            panelLoad.Controls.Add(supplyFrm);
+            supplyFrm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            supplyFrm.Dock = DockStyle.Fill;
+            supplyFrm.Show();
+        }
+
+        private void bunifuFlatButton1_Click(object sender, EventArgs e)
+        {
+            panelLoad.Controls.Clear();
+            Supply supplyFrm = new Supply();
+            supplyFrm.TopLevel = false;
+            panelLoad.Controls.Add(supplyFrm);
+            supplyFrm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            supplyFrm.Dock = DockStyle.Fill;
+            supplyFrm.Show();
+        }
+
+        private void bunifuFlatButton2_Click(object sender, EventArgs e)
+        {
+            panelLoad.Controls.Clear();
+            HandOver handOverFrm = new HandOver();
+            handOverFrm.TopLevel = false;
+            panelLoad.Controls.Add(handOverFrm);
+            handOverFrm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            handOverFrm.Dock = DockStyle.Fill;
+            handOverFrm.Show();
         }
     }
 }

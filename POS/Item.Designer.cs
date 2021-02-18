@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Item));
             this.bunifuSeparator1 = new Bunifu.Framework.UI.BunifuSeparator();
             this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.txtName = new Bunifu.Framework.UI.BunifuMetroTextbox();
@@ -44,7 +45,15 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearch = new Bunifu.Framework.UI.BunifuMetroTextbox();
+            this.pictureBoxBarcode = new System.Windows.Forms.PictureBox();
+            this.bunifuCustomLabel4 = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.btnPrint = new System.Windows.Forms.Button();
+            this.cmbBarcode = new System.Windows.Forms.ComboBox();
+            this.lblBarcodeError = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItem)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBarcode)).BeginInit();
             this.SuspendLayout();
             // 
             // bunifuSeparator1
@@ -286,12 +295,94 @@
             this.txtSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtSearch.OnValueChanged += new System.EventHandler(this.txtSearch_OnValueChanged);
             // 
+            // pictureBoxBarcode
+            // 
+            this.pictureBoxBarcode.Location = new System.Drawing.Point(19, 447);
+            this.pictureBoxBarcode.Name = "pictureBoxBarcode";
+            this.pictureBoxBarcode.Size = new System.Drawing.Size(498, 247);
+            this.pictureBoxBarcode.TabIndex = 36;
+            this.pictureBoxBarcode.TabStop = false;
+            // 
+            // bunifuCustomLabel4
+            // 
+            this.bunifuCustomLabel4.AutoSize = true;
+            this.bunifuCustomLabel4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bunifuCustomLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuCustomLabel4.ForeColor = System.Drawing.Color.White;
+            this.bunifuCustomLabel4.Location = new System.Drawing.Point(18, 394);
+            this.bunifuCustomLabel4.Name = "bunifuCustomLabel4";
+            this.bunifuCustomLabel4.Size = new System.Drawing.Size(155, 24);
+            this.bunifuCustomLabel4.TabIndex = 38;
+            this.bunifuCustomLabel4.Text = "Barcode Number";
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(105)))), ((int)(((byte)(179)))));
+            this.btnPrint.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
+            this.btnPrint.ForeColor = System.Drawing.Color.White;
+            this.btnPrint.Location = new System.Drawing.Point(408, 723);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(109, 43);
+            this.btnPrint.TabIndex = 39;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.UseVisualStyleBackColor = false;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
+            // cmbBarcode
+            // 
+            this.cmbBarcode.BackColor = System.Drawing.Color.White;
+            this.cmbBarcode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBarcode.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbBarcode.FormattingEnabled = true;
+            this.cmbBarcode.Location = new System.Drawing.Point(196, 391);
+            this.cmbBarcode.Name = "cmbBarcode";
+            this.cmbBarcode.Size = new System.Drawing.Size(321, 32);
+            this.cmbBarcode.TabIndex = 40;
+            this.cmbBarcode.SelectedIndexChanged += new System.EventHandler(this.cmbBarcode_SelectedIndexChanged);
+            // 
+            // lblBarcodeError
+            // 
+            this.lblBarcodeError.AutoSize = true;
+            this.lblBarcodeError.BackColor = System.Drawing.Color.Transparent;
+            this.lblBarcodeError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBarcodeError.ForeColor = System.Drawing.Color.Red;
+            this.lblBarcodeError.Location = new System.Drawing.Point(18, 735);
+            this.lblBarcodeError.Name = "lblBarcodeError";
+            this.lblBarcodeError.Size = new System.Drawing.Size(285, 20);
+            this.lblBarcodeError.TabIndex = 41;
+            this.lblBarcodeError.Text = "Please Select Valid Barcode Number..!!";
+            this.lblBarcodeError.Visible = false;
+            // 
+            // dataSetBarcode1
+            // 
+            // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
+            // 
             // Item
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(36)))), ((int)(((byte)(46)))));
-            this.ClientSize = new System.Drawing.Size(1362, 707);
+            this.ClientSize = new System.Drawing.Size(1362, 826);
+            this.Controls.Add(this.lblBarcodeError);
+            this.Controls.Add(this.cmbBarcode);
+            this.Controls.Add(this.btnPrint);
+            this.Controls.Add(this.bunifuCustomLabel4);
+            this.Controls.Add(this.pictureBoxBarcode);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.btnAdd);
@@ -313,6 +404,7 @@
             this.Text = "Item";
             this.Load += new System.EventHandler(this.Item_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvItem)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBarcode)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -336,5 +428,12 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnSearch;
         private Bunifu.Framework.UI.BunifuMetroTextbox txtSearch;
+        private System.Windows.Forms.PictureBox pictureBoxBarcode;
+        private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel4;
+        private System.Windows.Forms.Button btnPrint;
+        private System.Windows.Forms.ComboBox cmbBarcode;
+        private Bunifu.Framework.UI.BunifuCustomLabel lblBarcodeError;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
     }
 }

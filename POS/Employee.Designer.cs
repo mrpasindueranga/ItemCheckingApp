@@ -427,7 +427,6 @@
             this.ClientSize = new System.Drawing.Size(1362, 707);
             this.Controls.Add(this.btnDel);
             this.Controls.Add(this.btnCl);
-            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnSearch);
@@ -449,6 +448,7 @@
             this.Controls.Add(this.bunifuCustomLabel1);
             this.Controls.Add(this.btnCh);
             this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnUpdate);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Employee";
