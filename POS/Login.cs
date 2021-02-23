@@ -24,7 +24,7 @@ namespace POS
             String username = txtUsername.Text.Trim();
             String password = txtPassword.Text.Trim();
             DBConn Conn = new DBConn();
-            Conn.cmd.CommandText = "SELECT * FROM Employee WHERE Uname = @Uname AND Passwd = @Passwd";
+            Conn.cmd.CommandText = "SELECT * FROM Account WHERE Uname = @Uname AND Passwd = @Passwd";
             Conn.cmd.Parameters.Add("@Uname",SqlDbType.VarChar).Value = username;
             Conn.cmd.Parameters.Add("@Passwd",SqlDbType.VarChar).Value = password;
             Conn.ada.SelectCommand = Conn.cmd;
@@ -60,7 +60,6 @@ namespace POS
 
         private void txtPassword_OnValueChanged(object sender, EventArgs e)
         {
-            txtPassword.isPassword = true;
             lblError.Visible = false;
         }
     }

@@ -33,8 +33,6 @@
             this.btnDel = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.bunifuCustomLabel2 = new Bunifu.Framework.UI.BunifuCustomLabel();
-            this.nudQuantity = new System.Windows.Forms.NumericUpDown();
-            this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.dgvItem = new System.Windows.Forms.DataGridView();
             this.bunifuCustomLabel4 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.cmbSupID = new System.Windows.Forms.ComboBox();
@@ -47,7 +45,6 @@
             this.txtNote = new System.Windows.Forms.TextBox();
             this.btnAddNote = new System.Windows.Forms.Button();
             this.btnComplete = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItem)).BeginInit();
             this.SuspendLayout();
             // 
@@ -120,26 +117,6 @@
             this.bunifuCustomLabel2.Size = new System.Drawing.Size(90, 24);
             this.bunifuCustomLabel2.TabIndex = 62;
             this.bunifuCustomLabel2.Text = "Supply ID";
-            // 
-            // nudQuantity
-            // 
-            this.nudQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.nudQuantity.Location = new System.Drawing.Point(460, 101);
-            this.nudQuantity.Name = "nudQuantity";
-            this.nudQuantity.Size = new System.Drawing.Size(58, 29);
-            this.nudQuantity.TabIndex = 61;
-            // 
-            // bunifuCustomLabel1
-            // 
-            this.bunifuCustomLabel1.AutoSize = true;
-            this.bunifuCustomLabel1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bunifuCustomLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bunifuCustomLabel1.ForeColor = System.Drawing.Color.White;
-            this.bunifuCustomLabel1.Location = new System.Drawing.Point(376, 103);
-            this.bunifuCustomLabel1.Name = "bunifuCustomLabel1";
-            this.bunifuCustomLabel1.Size = new System.Drawing.Size(78, 24);
-            this.bunifuCustomLabel1.TabIndex = 60;
-            this.bunifuCustomLabel1.Text = "Quantity";
             // 
             // dgvItem
             // 
@@ -228,10 +205,11 @@
             this.txtBarcode.Location = new System.Drawing.Point(196, 93);
             this.txtBarcode.Margin = new System.Windows.Forms.Padding(6);
             this.txtBarcode.Name = "txtBarcode";
-            this.txtBarcode.Size = new System.Drawing.Size(171, 45);
+            this.txtBarcode.Size = new System.Drawing.Size(339, 45);
             this.txtBarcode.TabIndex = 73;
             this.txtBarcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtBarcode.OnValueChanged += new System.EventHandler(this.txtBarcode_OnValueChanged);
+            this.txtBarcode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBarcode_KeyPress);
             // 
             // cmbItemID
             // 
@@ -315,8 +293,6 @@
             this.Controls.Add(this.btnDel);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.bunifuCustomLabel2);
-            this.Controls.Add(this.nudQuantity);
-            this.Controls.Add(this.bunifuCustomLabel1);
             this.Controls.Add(this.dgvItem);
             this.Controls.Add(this.bunifuCustomLabel4);
             this.Controls.Add(this.btnCompare);
@@ -325,7 +301,6 @@
             this.Name = "HandOver";
             this.Text = "HandOver";
             this.Load += new System.EventHandler(this.HandOver_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItem)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -339,8 +314,6 @@
         private System.Windows.Forms.Button btnDel;
         private System.Windows.Forms.Button btnAdd;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel2;
-        private System.Windows.Forms.NumericUpDown nudQuantity;
-        private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel1;
         private System.Windows.Forms.DataGridView dgvItem;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel4;
         private System.Windows.Forms.ComboBox cmbSupID;

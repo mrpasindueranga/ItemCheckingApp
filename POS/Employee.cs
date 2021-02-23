@@ -23,12 +23,13 @@ namespace POS
         {
             txtSearch.Focus();
             DataLoad();
+            getNewID();
         }
 
         public void DataLoad()
         {
             DBConn Conn = new DBConn();
-            Conn.cmd.CommandText = "SELECT ID as 'Register NO', Name, Address, ContactNo as 'Contact No', Uname as Username, Passwd as Password FROM Employee";
+            Conn.cmd.CommandText = "SELECT ID as 'Register NO', Name, Address, ContactNo as 'Contact No', Status FROM Employee";
             Conn.ada.SelectCommand = Conn.cmd;
             DataTable dtEmployee = new DataTable();
             Conn.ada.Fill(dtEmployee);
@@ -42,15 +43,8 @@ namespace POS
         }
 
         public void getDataFromDGV() {
-            if (btnUpdate.Visible == true)
+            if (btnAdd.Visible == true)
             {
-                txtName.Enabled = true;
-                txtAddress.Enabled = true;
-                txtContact.Enabled = true;
-                txtUsername.Enabled = true;
-                txtPass.Enabled = true;
-                btnUpdate.Enabled = true;
-                btnDel.Enabled = true;
                 txtName.Focus();
                 foreach (DataGridViewRow row in dgvEmployee.SelectedRows)
                 {
@@ -58,8 +52,22 @@ namespace POS
                     txtName.Text = row.Cells[1].Value.ToString();
                     txtAddress.Text = row.Cells[2].Value.ToString();
                     txtContact.Text = row.Cells[3].Value.ToString();
-                    txtUsername.Text = row.Cells[4].Value.ToString();
-                    txtPass.Text = row.Cells[5].Value.ToString();
+
+                    if (row.Cells[4].Value.ToString() == "Unemployeed")
+                    {
+                        btnUpdate.Visible = true;
+                        btnDel.Visible = false;
+                    }
+                    else if (row.Cells[0].Value.ToString() == "EMP-001")
+                    {
+                        btnUpdate.Visible = false;
+                        btnDel.Visible = false;
+                    }
+                    else
+                    {
+                        btnDel.Visible = true;
+                        btnUpdate.Visible = true;
+                    }
                 }
             }
         }
@@ -100,43 +108,26 @@ namespace POS
 
         public void Clear()
         {
-            txtName.Enabled = true;
-            txtAddress.Enabled = true;
-            txtContact.Enabled = true;
-            txtUsername.Enabled = true;
-            txtPass.Enabled = true;
             txtName.Text = "";
             txtAddress.Text = "";
             txtContact.Text = "";
-            txtUsername.Text = "";
-            txtPass.Text = "";
             txtName.Focus();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            DBConn ConnEmp = new DBConn();
-            ConnEmp.cmd.CommandText = "SELECT Uname FROM Employee WHERE Uname=@Uname";
-            ConnEmp.cmd.Parameters.Add("@Uname",SqlDbType.VarChar).Value = txtUsername.Text.Trim();
-            ConnEmp.ada.SelectCommand = ConnEmp.cmd;
-            DataTable dtEmployee = new DataTable();
-            ConnEmp.ada.Fill(dtEmployee);
-            if (dtEmployee.Rows.Count == 0)
-            {
                 Regex conNo = new Regex(@"0[0-9]{9,9}");
-                if (!String.IsNullOrEmpty(txtName.Text.Trim()) && !String.IsNullOrEmpty(txtAddress.Text.Trim()) && conNo.IsMatch(txtContact.Text.Trim()) && !String.IsNullOrEmpty(txtUsername.Text.Trim()) && !String.IsNullOrEmpty(txtPass.Text.Trim()))
+                if (!String.IsNullOrEmpty(txtName.Text.Trim()) && !String.IsNullOrEmpty(txtAddress.Text.Trim()) && conNo.IsMatch(txtContact.Text.Trim()))
                 {
                     DialogResult saveConfirm = MessageBox.Show("Are you want to Save Employee " + txtRegID.Text + "?..", "Save Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (saveConfirm == DialogResult.Yes)
                     {
                         DBConn Conn = new DBConn();
-                        Conn.cmd.CommandText = "INSERT INTO EMPLOYEE VALUES(@ID,@Name,@Address,@Contact,@Username,@Pass)";
+                        Conn.cmd.CommandText = "INSERT INTO EMPLOYEE(ID, Name, Address, ContactNo) VALUES(@ID,@Name,@Address,@Contact)";
                         Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text.Trim();
                         Conn.cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtName.Text.Trim();
                         Conn.cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = txtAddress.Text.Trim();
                         Conn.cmd.Parameters.Add("@Contact", SqlDbType.VarChar).Value = txtContact.Text.Trim();
-                        Conn.cmd.Parameters.Add("@Username", SqlDbType.VarChar).Value = txtUsername.Text.Trim();
-                        Conn.cmd.Parameters.Add("@Pass", SqlDbType.VarChar).Value = txtPass.Text.Trim();
                         Conn.cmd.ExecuteNonQuery();
                         getNewID();
                         DataLoad();
@@ -150,12 +141,6 @@ namespace POS
                     lblError.Text = "Please check validity of data you entered!..";
                     lblError.Visible = true;
                 }
-            }
-            else
-            {
-                lblError.Text = "Username must be unique..!!";
-                lblError.Visible = true;
-            }
         }
 
         private void btnCl_Click(object sender, EventArgs e)
@@ -165,28 +150,18 @@ namespace POS
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            DBConn ConnEmp = new DBConn();
-            ConnEmp.cmd.CommandText = "SELECT Uname FROM Employee WHERE Uname=@Uname";
-            ConnEmp.cmd.Parameters.Add("@Uname", SqlDbType.VarChar).Value = txtUsername.Text.Trim();
-            ConnEmp.ada.SelectCommand = ConnEmp.cmd;
-            DataTable dtEmployee = new DataTable();
-            ConnEmp.ada.Fill(dtEmployee);
-            if (dtEmployee.Rows.Count == 0)
-            {
                 Regex conNo = new Regex(@"0[0-9]{9,9}");
-                if (!String.IsNullOrEmpty(txtName.Text.Trim()) && !String.IsNullOrEmpty(txtAddress.Text.Trim()) && conNo.IsMatch(txtContact.Text.Trim()) && !String.IsNullOrEmpty(txtUsername.Text.Trim()) && !String.IsNullOrEmpty(txtPass.Text.Trim()))
+                if (!String.IsNullOrEmpty(txtName.Text.Trim()) && !String.IsNullOrEmpty(txtAddress.Text.Trim()) && conNo.IsMatch(txtContact.Text.Trim()))
                 {
                     DialogResult upConfirm = MessageBox.Show("Are you want to Update Employee No " + txtRegID.Text + "?..", "Update Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (upConfirm == DialogResult.Yes)
                     {
                         DBConn Conn = new DBConn();
-                        Conn.cmd.CommandText = "UPDATE Employee SET Name=@Name, Address=@Address, ContactNo=@Contact, Uname=@Uname, Passwd=@Passwd WHERE ID=@ID";
+                        Conn.cmd.CommandText = "UPDATE Employee SET Name=@Name, Address=@Address, ContactNo=@Contact WHERE ID=@ID";
                         Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text.Trim();
                         Conn.cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtName.Text.Trim();
                         Conn.cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = txtAddress.Text.Trim();
                         Conn.cmd.Parameters.Add("@Contact", SqlDbType.VarChar).Value = txtContact.Text.Trim();
-                        Conn.cmd.Parameters.Add("@Uname", SqlDbType.VarChar).Value = txtUsername.Text.Trim();
-                        Conn.cmd.Parameters.Add("@Passwd", SqlDbType.VarChar).Value = txtPass.Text.Trim();
                         Conn.cmd.ExecuteNonQuery();
                         DataLoad();
                         MessageBox.Show("Successfully Updated Employee No " + txtRegID.Text + "!!", "Successfully Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -199,12 +174,6 @@ namespace POS
                     lblError.Text = "Please check validity of data you entered!..";
                     lblError.Visible = true;
                 }
-            }
-            else
-            {
-                lblError.Text = "Username must be unique..!!";
-                lblError.Visible = true;
-            }
         }
 
         private void txtName_OnValueChanged(object sender, EventArgs e)
@@ -227,19 +196,14 @@ namespace POS
             lblError.Visible = false;
         }
 
-        private void txtPass_OnValueChanged(object sender, EventArgs e)
-        {
-            txtPass.isPassword = true;
-            lblError.Visible = false;
-        }
-
         private void btnDel_Click(object sender, EventArgs e)
         {
             DialogResult delConfirm = MessageBox.Show("Are you want to Delete Employee No " + txtRegID.Text + "?..", "Delete Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (delConfirm == DialogResult.Yes)
             {
                 DBConn Conn = new DBConn();
-                Conn.cmd.CommandText = "DELETE Employee WHERE ID=@ID";
+                Conn.cmd.CommandText = "Update Employee SET Status=@Status WHERE ID=@ID";
+                Conn.cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = "Unemployeed";
                 Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text;
                 Conn.cmd.ExecuteNonQuery();
                 DataLoad();
@@ -267,7 +231,7 @@ namespace POS
             if (!String.IsNullOrEmpty(txtSearch.Text.Trim()))
             {
                 DBConn Conn = new DBConn();
-                Conn.cmd.CommandText = "SELECT ID as 'Register NO', Name, Address, ContactNo as 'Contact No', Uname as Username, Passwd as Password FROM Employee WHERE Name LIKE CONCAT('%',@Search,'%')";
+                Conn.cmd.CommandText = "SELECT ID as 'Register NO', Name, Address, ContactNo as 'Contact No', Status FROM Employee WHERE Name LIKE CONCAT('%',@Search,'%')";
                 Conn.cmd.Parameters.Add("@Search", SqlDbType.VarChar).Value = txtSearch.Text.Trim();
                 Conn.ada.SelectCommand = Conn.cmd;
                 DataTable dtEmployee = new DataTable();
@@ -288,6 +252,18 @@ namespace POS
             if (String.IsNullOrEmpty(txtSearch.Text.Trim()))
             {
                 DataLoad();
+            }
+        }
+
+        private void txtRegID_TextChanged(object sender, EventArgs e)
+        {
+            if (txtRegID.Text == "EMP-001" && dgvEmployee.SelectedRows.Count == 0)
+            {
+                btnCh.Visible = false;
+            }
+            else if (txtRegID.Text != "EMP-001" && btnSave.Visible == true)
+            {
+                btnCh.Visible = true;
             }
         }
     }

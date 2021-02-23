@@ -12,15 +12,15 @@
   <xs:element name="dsHandOver" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsHandOver" msprop:Generator_UserDSName="dsHandOver">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="dtHandOver" msprop:Generator_TableClassName="dtHandOverDataTable" msprop:Generator_TableVarName="tabledtHandOver" msprop:Generator_TablePropName="dtHandOver" msprop:Generator_RowDeletingName="dtHandOverRowDeleting" msprop:Generator_RowChangingName="dtHandOverRowChanging" msprop:Generator_RowEvHandlerName="dtHandOverRowChangeEventHandler" msprop:Generator_RowDeletedName="dtHandOverRowDeleted" msprop:Generator_UserTableName="dtHandOver" msprop:Generator_RowChangedName="dtHandOverRowChanged" msprop:Generator_RowEvArgName="dtHandOverRowChangeEvent" msprop:Generator_RowClassName="dtHandOverRow">
+        <xs:element name="dtHandOver" msprop:Generator_TableClassName="dtHandOverDataTable" msprop:Generator_TableVarName="tabledtHandOver" msprop:Generator_RowChangedName="dtHandOverRowChanged" msprop:Generator_TablePropName="dtHandOver" msprop:Generator_RowDeletingName="dtHandOverRowDeleting" msprop:Generator_RowChangingName="dtHandOverRowChanging" msprop:Generator_RowEvHandlerName="dtHandOverRowChangeEventHandler" msprop:Generator_RowDeletedName="dtHandOverRowDeleted" msprop:Generator_RowClassName="dtHandOverRow" msprop:Generator_UserTableName="dtHandOver" msprop:Generator_RowEvArgName="dtHandOverRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="SupID" msprop:Generator_ColumnVarNameInTable="columnSupID" msprop:Generator_ColumnPropNameInRow="SupID" msprop:Generator_ColumnPropNameInTable="SupIDColumn" msprop:Generator_UserColumnName="SupID" type="xs:string" minOccurs="0" />
               <xs:element name="Customer" msprop:Generator_ColumnVarNameInTable="columnCustomer" msprop:Generator_ColumnPropNameInRow="Customer" msprop:Generator_ColumnPropNameInTable="CustomerColumn" msprop:Generator_UserColumnName="Customer" type="xs:string" minOccurs="0" />
               <xs:element name="Date" msprop:Generator_ColumnVarNameInTable="columnDate" msprop:Generator_ColumnPropNameInRow="Date" msprop:Generator_ColumnPropNameInTable="DateColumn" msprop:Generator_UserColumnName="Date" type="xs:string" minOccurs="0" />
               <xs:element name="ItemID" msprop:Generator_ColumnVarNameInTable="columnItemID" msprop:Generator_ColumnPropNameInRow="ItemID" msprop:Generator_ColumnPropNameInTable="ItemIDColumn" msprop:Generator_UserColumnName="ItemID" type="xs:string" minOccurs="0" />
-              <xs:element name="Quantity" msprop:Generator_ColumnVarNameInTable="columnQuantity" msprop:Generator_ColumnPropNameInRow="Quantity" msprop:Generator_ColumnPropNameInTable="QuantityColumn" msprop:Generator_UserColumnName="Quantity" type="xs:string" minOccurs="0" />
               <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name" type="xs:string" minOccurs="0" />
+              <xs:element name="Quantity" msprop:Generator_ColumnVarNameInTable="columnQuantity" msprop:Generator_ColumnPropNameInRow="Quantity" msprop:Generator_ColumnPropNameInTable="QuantityColumn" msprop:Generator_UserColumnName="Quantity" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

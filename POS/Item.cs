@@ -24,6 +24,7 @@ namespace POS
         {
             DataLoad();
             loadBarcodeNumber();
+            getNewID();
         }
 
         public void DataLoad()
@@ -39,23 +40,28 @@ namespace POS
 
         public void Clear()
         {
-            txtName.Enabled = true;
             txtName.Text = "";
             txtName.Focus();
         }
 
         public void getDataFromDGV()
         {
-            if (btnUpdate.Visible == true)
+            if (btnAdd.Visible == true)
             {
-                txtName.Enabled = true;
-                btnUpdate.Enabled = true;
-                btnDel.Enabled = true;
                 txtName.Focus();
                 foreach (DataGridViewRow row in dgvItem.SelectedRows)
                 {
                     txtRegID.Text = row.Cells[0].Value.ToString();
                     txtName.Text = row.Cells[1].Value.ToString();
+
+                    if (row.Cells[2].Value.ToString() == "Unavailable")
+                    {
+                        btnDel.Visible = false;
+                    }
+                    else
+                    {
+                        btnDel.Visible = true;
+                    }
                 }
             }
         }
@@ -119,13 +125,13 @@ namespace POS
                 if (saveConfirm == DialogResult.Yes)
                 {
                     DBConn Conn = new DBConn();
-                    Conn.cmd.CommandText = "INSERT INTO Item VALUES(@ID,@Name)";
+                    Conn.cmd.CommandText = "INSERT INTO Item(ID, Name) VALUES(@ID,@Name)";
                     Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text.Trim();
                     Conn.cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtName.Text.Trim();
                     Conn.cmd.ExecuteNonQuery();
+                    MessageBox.Show("Successfully Saved Item" + txtRegID.Text + "!!", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     getNewID();
                     DataLoad();
-                    MessageBox.Show("Successfully Saved Item" + txtRegID.Text + "!!", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Clear();
                     loadBarcodeNumber();
                     txtName.Focus();
@@ -148,7 +154,8 @@ namespace POS
             if (delConfirm == DialogResult.Yes)
             {
                 DBConn Conn = new DBConn();
-                Conn.cmd.CommandText = "DELETE Item WHERE ID=@ID";
+                Conn.cmd.CommandText = "Update Item SET Status=@Status WHERE ID=@ID";
+                Conn.cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = "Unavailable";
                 Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text;
                 Conn.cmd.ExecuteNonQuery();
                 DataLoad();
@@ -172,8 +179,8 @@ namespace POS
                     Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtRegID.Text.Trim();
                     Conn.cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = txtName.Text.Trim();
                     Conn.cmd.ExecuteNonQuery();
-                    DataLoad();
                     MessageBox.Show("Successfully Updated Item No" + txtRegID.Text + "!!", "Successfully Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DataLoad();
                     getDataFromDGV();
                     txtName.Focus();
                 }
@@ -212,32 +219,46 @@ namespace POS
             }
         }
 
+        Image img;
+
         private void btnPrint_Click(object sender, EventArgs e)
         {
             if(cmbBarcode.SelectedIndex != 0)
             {
-                PrintDialog printDlg = new PrintDialog();
-                PrintDocument printDoc = new PrintDocument();
-                printDlg.Document = printDoc;
-                printDlg.AllowSelection = true;
-                printDlg.AllowSomePages = true;
-                if (printDlg.ShowDialog() == DialogResult.OK)
+                lblBarcodeError.Visible = false;
+                dsBarcode1.Clear();
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    printDoc.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage);
-                    printDoc.Print();
+                    img.Save(ms, ImageFormat.Png);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        dsBarcode1.Barcode.AddBarcodeRow(cmbBarcode.Text, ms.ToArray());
+                    }
                 }
+
+                using (Barcode barcode = new Barcode(dsBarcode1.Barcode))
+                {
+                    barcode.ShowDialog();
+                }
+            }
+            else
+            {
+                lblBarcodeError.Visible = true;
             }
         }
 
         private void previewBarcode()
         {
             BarcodeLib.Barcode barcode = new BarcodeLib.Barcode();
-            Image img = barcode.Encode(BarcodeLib.TYPE.CODE128, cmbBarcode.Text, Color.Black, Color.White, pictureBoxBarcode.Size.Width, pictureBoxBarcode.Size.Height);
+            img = barcode.Encode(BarcodeLib.TYPE.CODE128, cmbBarcode.Text, Color.Black, Color.White, pictureBoxBarcode.Size.Width, pictureBoxBarcode.Size.Height);
             pictureBoxBarcode.Image = img;
         }
 
         private void loadBarcodeNumber()
         {
+
+            cmbBarcode.Items.Clear();
+
             DBConn Conn = new DBConn();
             Conn.cmd.CommandText = "SELECT ID FROM Item";
             Conn.ada.SelectCommand = Conn.cmd;
@@ -254,23 +275,24 @@ namespace POS
 
         private void cmbBarcode_SelectedIndexChanged(object sender, EventArgs e)
         {
+            lblBarcodeError.Visible = false;
+
             if(cmbBarcode.SelectedIndex != 0)
             {
-                lblBarcodeError.Visible = false;
                 previewBarcode();
-            }
-            else
-            {
-                lblBarcodeError.Visible = true;
             }
         }
 
-        private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        private void txtRegID_OnValueChanged(object sender, EventArgs e)
         {
-            Bitmap bm = new Bitmap(pictureBoxBarcode.Width, pictureBoxBarcode.Height);
-            pictureBoxBarcode.DrawToBitmap(bm, new Rectangle(0, 0, pictureBoxBarcode.Width, pictureBoxBarcode.Height));
-            e.Graphics.DrawImage(bm, 0, 0);
-            bm.Dispose();
+            if (txtRegID.Text == "ITM-001" && dgvItem.SelectedRows.Count == 0)
+            {
+                btnCh.Visible = false;
+            }
+            else if (txtRegID.Text != "ITM-001" && btnSave.Visible == true)
+            {
+                btnCh.Visible = true;
+            }
         }
     }
 }

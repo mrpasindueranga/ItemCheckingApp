@@ -32,10 +32,6 @@ namespace POS
             lblDname.Text = Uname.Trim();
         }
 
-        private void Dashboard_Load(object sender, EventArgs e)
-        {
-        }
-
         private void btnEmployee_Click(object sender, EventArgs e)
         {
             panelLoad.Controls.Clear();
@@ -56,11 +52,6 @@ namespace POS
             itemFrm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             itemFrm.Dock = DockStyle.Fill;
             itemFrm.Show();
-        }
-
-        private void timerDate_Tick(object sender, EventArgs e)
-        {
-            lblDate.Text = DateTime.Now.ToString("yyyy/mm/dd HH:MM:ss");
         }
 
         private void panelLoad_Paint(object sender, PaintEventArgs e)
@@ -93,6 +84,39 @@ namespace POS
             handOverFrm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             handOverFrm.Dock = DockStyle.Fill;
             handOverFrm.Show();
+        }
+
+        private void btnLog_Click(object sender, EventArgs e)
+        {
+            panelLoad.Controls.Clear();
+            Log logFrm = new Log();
+            logFrm.TopLevel = false;
+            panelLoad.Controls.Add(logFrm);
+            logFrm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            logFrm.Dock = DockStyle.Fill;
+            logFrm.Show();
+        }
+
+        private void btnStock_Click(object sender, EventArgs e)
+        {
+            panelLoad.Controls.Clear();
+            Stock stockFrm = new Stock();
+            stockFrm.TopLevel = false;
+            panelLoad.Controls.Add(stockFrm);
+            stockFrm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            stockFrm.Dock = DockStyle.Fill;
+            stockFrm.Show();
+        }
+
+        private void btnAccount_Click(object sender, EventArgs e)
+        {
+            panelLoad.Controls.Clear();
+            Account accFrm = new Account();
+            accFrm.TopLevel = false;
+            panelLoad.Controls.Add(accFrm);
+            accFrm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            accFrm.Dock = DockStyle.Fill;
+            accFrm.Show();
         }
     }
 }

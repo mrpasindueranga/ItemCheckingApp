@@ -31,11 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.bunifuCustomLabel2 = new Bunifu.Framework.UI.BunifuCustomLabel();
-            this.txtUsername = new Bunifu.Framework.UI.BunifuMetroTextbox();
-            this.txtPassword = new Bunifu.Framework.UI.BunifuMetroTextbox();
             this.btnLogin = new Bunifu.Framework.UI.BunifuFlatButton();
             this.btnExit = new Bunifu.Framework.UI.BunifuImageButton();
             this.lblError = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,42 +62,6 @@
             this.bunifuCustomLabel2.Size = new System.Drawing.Size(107, 24);
             this.bunifuCustomLabel2.TabIndex = 1;
             this.bunifuCustomLabel2.Text = "Password : ";
-            // 
-            // txtUsername
-            // 
-            this.txtUsername.BorderColorFocused = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.txtUsername.BorderColorIdle = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtUsername.BorderColorMouseHover = System.Drawing.SystemColors.ControlDarkDark;
-            this.txtUsername.BorderThickness = 3;
-            this.txtUsername.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.txtUsername.ForeColor = System.Drawing.Color.White;
-            this.txtUsername.isPassword = false;
-            this.txtUsername.Location = new System.Drawing.Point(225, 228);
-            this.txtUsername.Margin = new System.Windows.Forms.Padding(4);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(322, 52);
-            this.txtUsername.TabIndex = 3;
-            this.txtUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtUsername.OnValueChanged += new System.EventHandler(this.txtUsername_OnValueChanged);
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.BorderColorFocused = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.txtPassword.BorderColorIdle = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtPassword.BorderColorMouseHover = System.Drawing.SystemColors.ControlDarkDark;
-            this.txtPassword.BorderThickness = 3;
-            this.txtPassword.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.txtPassword.ForeColor = System.Drawing.Color.White;
-            this.txtPassword.isPassword = false;
-            this.txtPassword.Location = new System.Drawing.Point(225, 354);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(4);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(322, 50);
-            this.txtPassword.TabIndex = 4;
-            this.txtPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtPassword.OnValueChanged += new System.EventHandler(this.txtPassword_OnValueChanged);
             // 
             // btnLogin
             // 
@@ -164,17 +128,46 @@
             this.lblError.Text = "User doesn\'t exit !";
             this.lblError.Visible = false;
             // 
+            // txtUsername
+            // 
+            this.txtUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(51)))), ((int)(((byte)(61)))));
+            this.txtUsername.Enabled = false;
+            this.txtUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUsername.ForeColor = System.Drawing.Color.White;
+            this.txtUsername.Location = new System.Drawing.Point(225, 225);
+            this.txtUsername.MaxLength = 50;
+            this.txtUsername.Multiline = true;
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(322, 39);
+            this.txtUsername.TabIndex = 92;
+            this.txtUsername.TextChanged += new System.EventHandler(this.txtUsername_OnValueChanged);
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(51)))), ((int)(((byte)(61)))));
+            this.txtPassword.Enabled = false;
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPassword.ForeColor = System.Drawing.Color.White;
+            this.txtPassword.Location = new System.Drawing.Point(225, 340);
+            this.txtPassword.MaxLength = 50;
+            this.txtPassword.Multiline = true;
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(322, 39);
+            this.txtPassword.TabIndex = 93;
+            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_OnValueChanged);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(51)))), ((int)(((byte)(61)))));
             this.ClientSize = new System.Drawing.Size(787, 631);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnLogin);
-            this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.txtUsername);
             this.Controls.Add(this.bunifuCustomLabel2);
             this.Controls.Add(this.bunifuCustomLabel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -191,11 +184,11 @@
 
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel1;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel2;
-        private Bunifu.Framework.UI.BunifuMetroTextbox txtUsername;
-        private Bunifu.Framework.UI.BunifuMetroTextbox txtPassword;
         private Bunifu.Framework.UI.BunifuFlatButton btnLogin;
         private Bunifu.Framework.UI.BunifuImageButton btnExit;
         private Bunifu.Framework.UI.BunifuCustomLabel lblError;
+        private System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.TextBox txtPassword;
     }
 }
 

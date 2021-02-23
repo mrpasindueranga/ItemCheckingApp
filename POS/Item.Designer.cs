@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Item));
             this.bunifuSeparator1 = new Bunifu.Framework.UI.BunifuSeparator();
             this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
-            this.txtName = new Bunifu.Framework.UI.BunifuMetroTextbox();
             this.txtRegID = new Bunifu.Framework.UI.BunifuMetroTextbox();
             this.bunifuCustomLabel3 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.bunifuCustomLabel2 = new Bunifu.Framework.UI.BunifuCustomLabel();
@@ -44,16 +42,17 @@
             this.btnCh = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
-            this.txtSearch = new Bunifu.Framework.UI.BunifuMetroTextbox();
             this.pictureBoxBarcode = new System.Windows.Forms.PictureBox();
             this.bunifuCustomLabel4 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.btnPrint = new System.Windows.Forms.Button();
             this.cmbBarcode = new System.Windows.Forms.ComboBox();
             this.lblBarcodeError = new Bunifu.Framework.UI.BunifuCustomLabel();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.dsBarcode1 = new POS.DataSet.dsBarcode();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBarcode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dsBarcode1)).BeginInit();
             this.SuspendLayout();
             // 
             // bunifuSeparator1
@@ -80,25 +79,6 @@
             this.bunifuCustomLabel1.TabIndex = 3;
             this.bunifuCustomLabel1.Text = "Item Management";
             // 
-            // txtName
-            // 
-            this.txtName.BorderColorFocused = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.txtName.BorderColorIdle = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtName.BorderColorMouseHover = System.Drawing.SystemColors.ControlDarkDark;
-            this.txtName.BorderThickness = 3;
-            this.txtName.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtName.Enabled = false;
-            this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtName.ForeColor = System.Drawing.Color.White;
-            this.txtName.isPassword = false;
-            this.txtName.Location = new System.Drawing.Point(196, 170);
-            this.txtName.Margin = new System.Windows.Forms.Padding(6);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(321, 45);
-            this.txtName.TabIndex = 15;
-            this.txtName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtName.OnValueChanged += new System.EventHandler(this.txtName_OnValueChanged);
-            // 
             // txtRegID
             // 
             this.txtRegID.BorderColorFocused = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
@@ -116,6 +96,7 @@
             this.txtRegID.Size = new System.Drawing.Size(321, 45);
             this.txtRegID.TabIndex = 14;
             this.txtRegID.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txtRegID.OnValueChanged += new System.EventHandler(this.txtRegID_OnValueChanged);
             // 
             // bunifuCustomLabel3
             // 
@@ -123,7 +104,7 @@
             this.bunifuCustomLabel3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bunifuCustomLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bunifuCustomLabel3.ForeColor = System.Drawing.Color.White;
-            this.bunifuCustomLabel3.Location = new System.Drawing.Point(18, 179);
+            this.bunifuCustomLabel3.Location = new System.Drawing.Point(18, 166);
             this.bunifuCustomLabel3.Name = "bunifuCustomLabel3";
             this.bunifuCustomLabel3.Size = new System.Drawing.Size(101, 24);
             this.bunifuCustomLabel3.TabIndex = 13;
@@ -150,7 +131,7 @@
             this.dgvItem.Name = "dgvItem";
             this.dgvItem.ReadOnly = true;
             this.dgvItem.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvItem.Size = new System.Drawing.Size(557, 430);
+            this.dgvItem.Size = new System.Drawing.Size(557, 685);
             this.dgvItem.TabIndex = 17;
             this.dgvItem.SelectionChanged += new System.EventHandler(this.dgvItem_SelectionChanged);
             // 
@@ -160,7 +141,7 @@
             this.lblError.BackColor = System.Drawing.Color.Transparent;
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.Red;
-            this.lblError.Location = new System.Drawing.Point(192, 223);
+            this.lblError.Location = new System.Drawing.Point(192, 221);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(307, 20);
             this.lblError.TabIndex = 30;
@@ -181,6 +162,7 @@
             this.btnDel.TabIndex = 27;
             this.btnDel.Text = "Delete";
             this.btnDel.UseVisualStyleBackColor = false;
+            this.btnDel.Visible = false;
             this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
             // btnUpdate
@@ -197,6 +179,7 @@
             this.btnUpdate.TabIndex = 26;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = false;
+            this.btnUpdate.Visible = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // btnSave
@@ -212,7 +195,6 @@
             this.btnSave.TabIndex = 28;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = false;
-            this.btnSave.Visible = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCl
@@ -222,13 +204,12 @@
             this.btnCl.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCl.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.btnCl.ForeColor = System.Drawing.Color.White;
-            this.btnCl.Location = new System.Drawing.Point(408, 275);
+            this.btnCl.Location = new System.Drawing.Point(196, 275);
             this.btnCl.Name = "btnCl";
             this.btnCl.Size = new System.Drawing.Size(109, 43);
             this.btnCl.TabIndex = 31;
             this.btnCl.Text = "Clear";
             this.btnCl.UseVisualStyleBackColor = false;
-            this.btnCl.Visible = false;
             this.btnCl.Click += new System.EventHandler(this.btnCl_Click);
             // 
             // btnCh
@@ -238,13 +219,12 @@
             this.btnCh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCh.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.btnCh.ForeColor = System.Drawing.Color.White;
-            this.btnCh.Location = new System.Drawing.Point(1123, 530);
+            this.btnCh.Location = new System.Drawing.Point(408, 275);
             this.btnCh.Name = "btnCh";
             this.btnCh.Size = new System.Drawing.Size(109, 45);
             this.btnCh.TabIndex = 33;
             this.btnCh.Text = "Change";
             this.btnCh.UseVisualStyleBackColor = false;
-            this.btnCh.Visible = false;
             this.btnCh.Click += new System.EventHandler(this.btnCh_Click);
             // 
             // btnAdd
@@ -254,12 +234,13 @@
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(1123, 530);
+            this.btnAdd.Location = new System.Drawing.Point(408, 275);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(109, 45);
             this.btnAdd.TabIndex = 32;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = false;
+            this.btnAdd.Visible = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnSearch
@@ -269,31 +250,13 @@
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.btnSearch.ForeColor = System.Drawing.Color.White;
-            this.btnSearch.Location = new System.Drawing.Point(1123, 27);
+            this.btnSearch.Location = new System.Drawing.Point(1123, 34);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(109, 45);
+            this.btnSearch.Size = new System.Drawing.Size(109, 38);
             this.btnSearch.TabIndex = 35;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.BorderColorFocused = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.txtSearch.BorderColorIdle = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtSearch.BorderColorMouseHover = System.Drawing.SystemColors.ControlDarkDark;
-            this.txtSearch.BorderThickness = 3;
-            this.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.ForeColor = System.Drawing.Color.White;
-            this.txtSearch.isPassword = false;
-            this.txtSearch.Location = new System.Drawing.Point(675, 27);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(6);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(438, 45);
-            this.txtSearch.TabIndex = 34;
-            this.txtSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtSearch.OnValueChanged += new System.EventHandler(this.txtSearch_OnValueChanged);
             // 
             // pictureBoxBarcode
             // 
@@ -355,22 +318,37 @@
             this.lblBarcodeError.Text = "Please Select Valid Barcode Number..!!";
             this.lblBarcodeError.Visible = false;
             // 
-            // dataSetBarcode1
+            // dsBarcode1
             // 
+            this.dsBarcode1.DataSetName = "dsBarcode";
+            this.dsBarcode1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
-            // printDocument1
+            // txtName
             // 
-            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            this.txtName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(36)))), ((int)(((byte)(46)))));
+            this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtName.ForeColor = System.Drawing.Color.White;
+            this.txtName.Location = new System.Drawing.Point(196, 163);
+            this.txtName.MaxLength = 50;
+            this.txtName.Multiline = true;
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(321, 39);
+            this.txtName.TabIndex = 93;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_OnValueChanged);
             // 
-            // printPreviewDialog1
+            // txtSearch
             // 
-            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
-            this.printPreviewDialog1.Enabled = true;
-            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
-            this.printPreviewDialog1.Name = "printPreviewDialog1";
-            this.printPreviewDialog1.Visible = false;
+            this.txtSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(36)))), ((int)(((byte)(46)))));
+            this.txtSearch.Enabled = false;
+            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearch.ForeColor = System.Drawing.Color.White;
+            this.txtSearch.Location = new System.Drawing.Point(685, 34);
+            this.txtSearch.MaxLength = 50;
+            this.txtSearch.Multiline = true;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(432, 39);
+            this.txtSearch.TabIndex = 94;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_OnValueChanged);
             // 
             // Item
             // 
@@ -378,33 +356,35 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(36)))), ((int)(((byte)(46)))));
             this.ClientSize = new System.Drawing.Size(1362, 826);
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblBarcodeError);
             this.Controls.Add(this.cmbBarcode);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.bunifuCustomLabel4);
             this.Controls.Add(this.pictureBoxBarcode);
             this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.txtSearch);
-            this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.btnCl);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnDel);
             this.Controls.Add(this.dgvItem);
-            this.Controls.Add(this.txtName);
             this.Controls.Add(this.txtRegID);
             this.Controls.Add(this.bunifuCustomLabel3);
             this.Controls.Add(this.bunifuCustomLabel2);
             this.Controls.Add(this.bunifuSeparator1);
             this.Controls.Add(this.bunifuCustomLabel1);
             this.Controls.Add(this.btnCh);
-            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.btnCl);
+            this.Controls.Add(this.btnAdd);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Item";
             this.Text = "Item";
             this.Load += new System.EventHandler(this.Item_Load);
+            this.TextChanged += new System.EventHandler(this.txtName_OnValueChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgvItem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBarcode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dsBarcode1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -414,7 +394,6 @@
 
         private Bunifu.Framework.UI.BunifuSeparator bunifuSeparator1;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel1;
-        private Bunifu.Framework.UI.BunifuMetroTextbox txtName;
         private Bunifu.Framework.UI.BunifuMetroTextbox txtRegID;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel3;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel2;
@@ -427,13 +406,13 @@
         private System.Windows.Forms.Button btnCh;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnSearch;
-        private Bunifu.Framework.UI.BunifuMetroTextbox txtSearch;
         private System.Windows.Forms.PictureBox pictureBoxBarcode;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel4;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.ComboBox cmbBarcode;
         private Bunifu.Framework.UI.BunifuCustomLabel lblBarcodeError;
-        private System.Drawing.Printing.PrintDocument printDocument1;
-        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private DataSet.dsBarcode dsBarcode1;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.TextBox txtSearch;
     }
 }

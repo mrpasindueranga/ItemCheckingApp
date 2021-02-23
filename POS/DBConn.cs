@@ -19,13 +19,13 @@ namespace POS
 
         public DBConn()
         {
-            if (conn.State == ConnectionState.Open)
+           if (conn.State == ConnectionState.Open)
             {
-                conn.Close();
+               conn.Close();
                 conn.Dispose();
-            }
+           }
             else
-            {
+          {
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["POS"].ConnectionString;
                 conn.Open();
                 cmd.Connection = conn;

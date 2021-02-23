@@ -30,10 +30,7 @@
         {
             this.bunifuCustomLabel4 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.dgvItem = new System.Windows.Forms.DataGridView();
-            this.txtCusName = new Bunifu.Framework.UI.BunifuMetroTextbox();
             this.bunifuCustomLabel3 = new Bunifu.Framework.UI.BunifuCustomLabel();
-            this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
-            this.nudQuantity = new System.Windows.Forms.NumericUpDown();
             this.txtSupID = new Bunifu.Framework.UI.BunifuMetroTextbox();
             this.bunifuCustomLabel2 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.btnSave = new System.Windows.Forms.Button();
@@ -41,10 +38,12 @@
             this.btnDel = new System.Windows.Forms.Button();
             this.btnCl = new System.Windows.Forms.Button();
             this.lblError = new Bunifu.Framework.UI.BunifuCustomLabel();
-            this.txtBarcode = new Bunifu.Framework.UI.BunifuMetroTextbox();
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.bunifuCustomLabel5 = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.cmbEmpID = new System.Windows.Forms.ComboBox();
+            this.txtBarcode = new System.Windows.Forms.TextBox();
+            this.txtCusName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvItem)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).BeginInit();
             this.SuspendLayout();
             // 
             // bunifuCustomLabel4
@@ -53,7 +52,7 @@
             this.bunifuCustomLabel4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.bunifuCustomLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bunifuCustomLabel4.ForeColor = System.Drawing.Color.White;
-            this.bunifuCustomLabel4.Location = new System.Drawing.Point(24, 157);
+            this.bunifuCustomLabel4.Location = new System.Drawing.Point(24, 225);
             this.bunifuCustomLabel4.Name = "bunifuCustomLabel4";
             this.bunifuCustomLabel4.Size = new System.Drawing.Size(155, 24);
             this.bunifuCustomLabel4.TabIndex = 41;
@@ -64,30 +63,12 @@
             this.dgvItem.AllowUserToAddRows = false;
             this.dgvItem.AllowUserToDeleteRows = false;
             this.dgvItem.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(36)))), ((int)(((byte)(46)))));
-            this.dgvItem.Location = new System.Drawing.Point(28, 216);
+            this.dgvItem.Location = new System.Drawing.Point(28, 277);
             this.dgvItem.Name = "dgvItem";
             this.dgvItem.ReadOnly = true;
             this.dgvItem.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvItem.Size = new System.Drawing.Size(618, 430);
+            this.dgvItem.Size = new System.Drawing.Size(618, 369);
             this.dgvItem.TabIndex = 43;
-            // 
-            // txtCusName
-            // 
-            this.txtCusName.BorderColorFocused = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.txtCusName.BorderColorIdle = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtCusName.BorderColorMouseHover = System.Drawing.SystemColors.ControlDarkDark;
-            this.txtCusName.BorderThickness = 3;
-            this.txtCusName.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtCusName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCusName.ForeColor = System.Drawing.Color.White;
-            this.txtCusName.isPassword = false;
-            this.txtCusName.Location = new System.Drawing.Point(202, 84);
-            this.txtCusName.Margin = new System.Windows.Forms.Padding(6);
-            this.txtCusName.Name = "txtCusName";
-            this.txtCusName.Size = new System.Drawing.Size(444, 45);
-            this.txtCusName.TabIndex = 0;
-            this.txtCusName.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtCusName.OnValueChanged += new System.EventHandler(this.txtCusName_OnValueChanged);
             // 
             // bunifuCustomLabel3
             // 
@@ -100,26 +81,6 @@
             this.bunifuCustomLabel3.Size = new System.Drawing.Size(147, 24);
             this.bunifuCustomLabel3.TabIndex = 44;
             this.bunifuCustomLabel3.Text = "Customer Name";
-            // 
-            // bunifuCustomLabel1
-            // 
-            this.bunifuCustomLabel1.AutoSize = true;
-            this.bunifuCustomLabel1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bunifuCustomLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bunifuCustomLabel1.ForeColor = System.Drawing.Color.White;
-            this.bunifuCustomLabel1.Location = new System.Drawing.Point(382, 157);
-            this.bunifuCustomLabel1.Name = "bunifuCustomLabel1";
-            this.bunifuCustomLabel1.Size = new System.Drawing.Size(78, 24);
-            this.bunifuCustomLabel1.TabIndex = 46;
-            this.bunifuCustomLabel1.Text = "Quantity";
-            // 
-            // nudQuantity
-            // 
-            this.nudQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.nudQuantity.Location = new System.Drawing.Point(466, 155);
-            this.nudQuantity.Name = "nudQuantity";
-            this.nudQuantity.Size = new System.Drawing.Size(45, 29);
-            this.nudQuantity.TabIndex = 47;
             // 
             // txtSupID
             // 
@@ -174,7 +135,7 @@
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(550, 148);
+            this.btnAdd.Location = new System.Drawing.Point(550, 216);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(96, 43);
             this.btnAdd.TabIndex = 51;
@@ -225,24 +186,6 @@
             this.lblError.Text = "Please check validity of data you entered!..";
             this.lblError.Visible = false;
             // 
-            // txtBarcode
-            // 
-            this.txtBarcode.BorderColorFocused = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.txtBarcode.BorderColorIdle = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.txtBarcode.BorderColorMouseHover = System.Drawing.SystemColors.ControlDarkDark;
-            this.txtBarcode.BorderThickness = 3;
-            this.txtBarcode.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtBarcode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBarcode.ForeColor = System.Drawing.Color.White;
-            this.txtBarcode.isPassword = false;
-            this.txtBarcode.Location = new System.Drawing.Point(202, 148);
-            this.txtBarcode.Margin = new System.Windows.Forms.Padding(6);
-            this.txtBarcode.Name = "txtBarcode";
-            this.txtBarcode.Size = new System.Drawing.Size(171, 45);
-            this.txtBarcode.TabIndex = 74;
-            this.txtBarcode.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtBarcode.OnValueChanged += new System.EventHandler(this.txtBarcode_OnValueChanged);
-            // 
             // reportViewer1
             // 
             this.reportViewer1.LocalReport.ReportEmbeddedResource = "POS.Report.Report1.rdlc";
@@ -251,14 +194,64 @@
             this.reportViewer1.Size = new System.Drawing.Size(426, 624);
             this.reportViewer1.TabIndex = 75;
             // 
+            // bunifuCustomLabel5
+            // 
+            this.bunifuCustomLabel5.AutoSize = true;
+            this.bunifuCustomLabel5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bunifuCustomLabel5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuCustomLabel5.ForeColor = System.Drawing.Color.White;
+            this.bunifuCustomLabel5.Location = new System.Drawing.Point(24, 156);
+            this.bunifuCustomLabel5.Name = "bunifuCustomLabel5";
+            this.bunifuCustomLabel5.Size = new System.Drawing.Size(82, 24);
+            this.bunifuCustomLabel5.TabIndex = 77;
+            this.bunifuCustomLabel5.Text = "Agent ID";
+            // 
+            // cmbEmpID
+            // 
+            this.cmbEmpID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbEmpID.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.cmbEmpID.FormattingEnabled = true;
+            this.cmbEmpID.Location = new System.Drawing.Point(202, 153);
+            this.cmbEmpID.Name = "cmbEmpID";
+            this.cmbEmpID.Size = new System.Drawing.Size(444, 32);
+            this.cmbEmpID.TabIndex = 78;
+            // 
+            // txtBarcode
+            // 
+            this.txtBarcode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(36)))), ((int)(((byte)(46)))));
+            this.txtBarcode.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.txtBarcode.ForeColor = System.Drawing.Color.White;
+            this.txtBarcode.Location = new System.Drawing.Point(202, 216);
+            this.txtBarcode.Multiline = true;
+            this.txtBarcode.Name = "txtBarcode";
+            this.txtBarcode.Size = new System.Drawing.Size(342, 43);
+            this.txtBarcode.TabIndex = 79;
+            this.txtBarcode.TextChanged += new System.EventHandler(this.txtBarcode_OnValueChanged);
+            this.txtBarcode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBarcode_KeyPress);
+            // 
+            // txtCusName
+            // 
+            this.txtCusName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(36)))), ((int)(((byte)(46)))));
+            this.txtCusName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.txtCusName.ForeColor = System.Drawing.Color.White;
+            this.txtCusName.Location = new System.Drawing.Point(202, 90);
+            this.txtCusName.Multiline = true;
+            this.txtCusName.Name = "txtCusName";
+            this.txtCusName.Size = new System.Drawing.Size(444, 40);
+            this.txtCusName.TabIndex = 80;
+            this.txtCusName.TextChanged += new System.EventHandler(this.txtCusName_OnValueChanged);
+            // 
             // Supply
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(36)))), ((int)(((byte)(46)))));
             this.ClientSize = new System.Drawing.Size(1300, 708);
-            this.Controls.Add(this.reportViewer1);
+            this.Controls.Add(this.txtCusName);
             this.Controls.Add(this.txtBarcode);
+            this.Controls.Add(this.cmbEmpID);
+            this.Controls.Add(this.bunifuCustomLabel5);
+            this.Controls.Add(this.reportViewer1);
             this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnCl);
             this.Controls.Add(this.btnDel);
@@ -266,9 +259,6 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtSupID);
             this.Controls.Add(this.bunifuCustomLabel2);
-            this.Controls.Add(this.nudQuantity);
-            this.Controls.Add(this.bunifuCustomLabel1);
-            this.Controls.Add(this.txtCusName);
             this.Controls.Add(this.bunifuCustomLabel3);
             this.Controls.Add(this.dgvItem);
             this.Controls.Add(this.bunifuCustomLabel4);
@@ -277,7 +267,6 @@
             this.Text = "Supply";
             this.Load += new System.EventHandler(this.Supply_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvItem)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudQuantity)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,10 +275,7 @@
         #endregion
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel4;
         private System.Windows.Forms.DataGridView dgvItem;
-        private Bunifu.Framework.UI.BunifuMetroTextbox txtCusName;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel3;
-        private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel1;
-        private System.Windows.Forms.NumericUpDown nudQuantity;
         private Bunifu.Framework.UI.BunifuMetroTextbox txtSupID;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel2;
         private System.Windows.Forms.Button btnSave;
@@ -297,7 +283,10 @@
         private System.Windows.Forms.Button btnDel;
         private System.Windows.Forms.Button btnCl;
         private Bunifu.Framework.UI.BunifuCustomLabel lblError;
-        private Bunifu.Framework.UI.BunifuMetroTextbox txtBarcode;
         private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
+        private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel5;
+        private System.Windows.Forms.ComboBox cmbEmpID;
+        private System.Windows.Forms.TextBox txtBarcode;
+        private System.Windows.Forms.TextBox txtCusName;
     }
 }

@@ -21,7 +21,7 @@ namespace POS
         private void getPendingItemID()
         {
             DBConn ConnPID = new DBConn();
-            ConnPID.cmd.CommandText = "SELECT ItemID, Note FROM Assign WHERE [Status]=@Status AND SupID=@SupID";
+            ConnPID.cmd.CommandText = "SELECT Assign.ItemID FROM Assign LEFT JOIN Rent ON Assign.RenID=Rent.ID WHERE Rent.Status=@Status AND Assign.RenID=@SupID ";
             ConnPID.cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = "Pending";
             ConnPID.cmd.Parameters.Add("@SupID", SqlDbType.VarChar).Value = cmbSupID.Text;
             ConnPID.ada.SelectCommand = ConnPID.cmd;
@@ -33,17 +33,14 @@ namespace POS
 
             foreach (DataRow row in dtItmID.Rows)
             {
-                if(row["Note"] == DBNull.Value)
-                {
                     cmbItemID.Items.Add(row["ItemID"]);
-                }
             }
         }
 
         private void getSupID()
         {
             DBConn Conn = new DBConn();
-            Conn.cmd.CommandText = "SELECT DISTINCT SupID FROM Assign WHERE [Status]=@Status";
+            Conn.cmd.CommandText = "SELECT Rent.ID FROM Rent WHERE Status=@Status";
             Conn.cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = "Pending";
             Conn.ada.SelectCommand = Conn.cmd;
             DataTable dtSupID = new DataTable();
@@ -54,7 +51,7 @@ namespace POS
 
             foreach (DataRow row in dtSupID.Rows)
             {
-                cmbSupID.Items.Add(row["SupID"]);
+                cmbSupID.Items.Add(row["ID"]);
             }
         }
 
@@ -66,15 +63,14 @@ namespace POS
             getSupID();
             dtLoad.Columns.Add("Item ID");
             dtLoad.Columns.Add("Name");
-            dtLoad.Columns.Add("Quantity");
             txtBarcode.Focus();
         }
 
         bool isValid = true;
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void addItem()
         {
-            if (!String.IsNullOrEmpty(txtBarcode.Text) && nudQuantity.Value != 0 && cmbSupID.SelectedIndex != 0)
+            if (!String.IsNullOrEmpty(txtBarcode.Text) && cmbSupID.SelectedIndex != 0)
             {
                 foreach (DataGridViewRow row in dgvItem.Rows)
                 {
@@ -92,7 +88,7 @@ namespace POS
                 if (isValid)
                 {
                     DBConn Conn = new DBConn();
-                    Conn.cmd.CommandText = "SELECT * FROM Item WHERE ID=@ID";
+                    Conn.cmd.CommandText = "SELECT ID, Name FROM Item WHERE ID=@ID";
                     Conn.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = txtBarcode.Text;
                     Conn.sdr = Conn.cmd.ExecuteReader();
 
@@ -101,14 +97,12 @@ namespace POS
                         var dr = dtLoad.NewRow();
                         dr["Item ID"] = Conn.sdr.GetValue(0).ToString();
                         dr["Name"] = Conn.sdr.GetValue(1).ToString();
-                        dr["Quantity"] = nudQuantity.Value.ToString();
                         dtLoad.Rows.Add(dr);
                         dgvItem.DataSource = dtLoad;
                     }
 
                     txtBarcode.Text = "";
                     txtBarcode.Focus();
-                    nudQuantity.Value = 0;
 
                     if (cmbSupID.SelectedIndex != 0)
                     {
@@ -126,6 +120,11 @@ namespace POS
                 lblError.Text = "Please enter valid item details..";
                 lblError.Visible = true;
             }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            addItem();
         }
 
         private void btnDel_Click(object sender, EventArgs e)
@@ -182,34 +181,30 @@ namespace POS
 
         private void btnCompare_Click(object sender, EventArgs e)
         {
-            coord = 3;
-            panelNotify.Controls.Clear();
-            foreach (DataGridViewRow row in dgvItem.Rows)
+            if (cmbSupID.SelectedIndex != 0 && dgvItem.Rows.Count != 0)
             {
-                DBConn Conn = new DBConn();
-                Conn.cmd.CommandText = "SELECT * FROM Assign WHERE SupID=@SupID AND ItemID=@ItemID AND [Status]=@Pending";
-                Conn.cmd.Parameters.Add("@SupID", SqlDbType.VarChar).Value = cmbSupID.Text;
-                Conn.cmd.Parameters.Add("@Pending", SqlDbType.VarChar).Value = "Pending";
-                Conn.cmd.Parameters.Add("@ItemID", SqlDbType.VarChar).Value = row.Cells["Item ID"].Value.ToString();
-                Conn.ada.SelectCommand = Conn.cmd;
-
-                DataTable dtCheck = new DataTable();
-                Conn.ada.Fill(dtCheck);
-
-                if(dtCheck.Rows.Count != 0)
+                coord = 3;
+                panelNotify.Controls.Clear();
+                foreach (DataGridViewRow row in dgvItem.Rows)
                 {
-                    foreach (DataRow dr in dtCheck.Rows)
+                    DBConn Conn = new DBConn();
+                    Conn.cmd.CommandText = "SELECT * FROM Assign WHERE RenID=@SupID AND ItemID=@ItemID AND [Status]=@Pending";
+                    Conn.cmd.Parameters.Add("@SupID", SqlDbType.VarChar).Value = cmbSupID.Text;
+                    Conn.cmd.Parameters.Add("@Pending", SqlDbType.VarChar).Value = "Stock Out";
+                    Conn.cmd.Parameters.Add("@ItemID", SqlDbType.VarChar).Value = row.Cells["Item ID"].Value.ToString();
+                    Conn.ada.SelectCommand = Conn.cmd;
+
+                    DataTable dtCheck = new DataTable();
+                    Conn.ada.Fill(dtCheck);
+
+                    if (dtCheck.Rows.Count != 0)
                     {
-                        if(row.Cells["Quantity"].Value.ToString() != dr["Quantity"].ToString())
-                        {
-                            getCard(row.Cells["Item ID"].Value.ToString(), "This Item Quantity is must be "+ dr["Quantity"].ToString() + " ...!!");
-                        }
-                        else
+                        foreach (DataRow dr in dtCheck.Rows)
                         {
                             DBConn ConnIn = new DBConn();
-                            ConnIn.cmd.CommandText = "UPDATE Assign SET [Status]=@Status, Date=@Date WHERE SupID=@SupID AND ItemID=@ItemID AND [Status]=@Pending";
-                            ConnIn.cmd.Parameters.Add("@Status",SqlDbType.VarChar).Value = "Completed";
-                            ConnIn.cmd.Parameters.Add("@Pending",SqlDbType.VarChar).Value = "Pending";
+                            ConnIn.cmd.CommandText = "UPDATE Assign SET [Status]=@Status, RetDate=@Date WHERE RenID=@SupID AND ItemID=@ItemID AND [Status]=@Pending";
+                            ConnIn.cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = "Stock In";
+                            ConnIn.cmd.Parameters.Add("@Pending", SqlDbType.VarChar).Value = "Stock Out";
                             ConnIn.cmd.Parameters.Add("@SupID", SqlDbType.VarChar).Value = cmbSupID.Text;
                             ConnIn.cmd.Parameters.Add("@Date", SqlDbType.Date).Value = DateTime.Now.ToString("yyyy-MM-dd");
                             ConnIn.cmd.Parameters.Add("@ItemID", SqlDbType.VarChar).Value = row.Cells["Item ID"].Value.ToString();
@@ -218,24 +213,28 @@ namespace POS
                             MessageBox.Show("Successfully Saved some records !!", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
+                    else
+                    {
+                        getCard(row.Cells["Item ID"].Value.ToString(), "This Item is not in the supply...!!");
+                    }
+                }
+
+
+                getPendingItemID();
+                if (cmbSupID.SelectedIndex != 0 && panelNotify.Controls.Count == 0 && cmbItemID.Items.Count == 1)
+                {
+                    btnComplete.Visible = true;
+                    btnCompare.Visible = false;
                 }
                 else
                 {
-                    getCard(row.Cells["Item ID"].Value.ToString(), "This Item is not in the supply...!!");
+                    btnCompare.Visible = true;
+                    btnComplete.Visible = false;
                 }
-            }
-
-
-            getPendingItemID();
-            if (dgvItem.Rows.Count != 0 && panelNotify.Controls.Count == 0 && cmbItemID.Items.Count == 1)
+            }else
             {
-                btnComplete.Visible = true;
-                btnCompare.Visible = false;
-            }
-            else
-            {
-                btnCompare.Visible = true;
-                btnComplete.Visible = false;
+                lblError.Text = "Please Enter Valid Data";
+                lblError.Visible = true;
             }
         }
 
@@ -260,11 +259,12 @@ namespace POS
             if (cmbItemID.SelectedIndex != 0)
             {
                 DBConn Conn = new DBConn();
-                Conn.cmd.CommandText = "UPDATE Assign SET Note=@Note WHERE ItemID=@ItemID AND SupID=@SupID AND [Status]=@Pending";
+                Conn.cmd.CommandText = "UPDATE Assign SET Note=@Note, Status=@Status WHERE ItemID=@ItemID AND RenID=@SupID AND [Status]=@Pending";
                 Conn.cmd.Parameters.Add("@Note",SqlDbType.VarChar).Value = txtNote.Text;
                 Conn.cmd.Parameters.Add("@ItemID",SqlDbType.VarChar).Value = cmbItemID.Text;
                 Conn.cmd.Parameters.Add("@SupID",SqlDbType.VarChar).Value = cmbSupID.Text;
-                Conn.cmd.Parameters.Add("@Pending", SqlDbType.VarChar).Value = "Pending";
+                Conn.cmd.Parameters.Add("@Pending", SqlDbType.VarChar).Value = "Stock Out";
+                Conn.cmd.Parameters.Add("@Status", SqlDbType.VarChar).Value = "Stock In";
                 Conn.cmd.ExecuteNonQuery();
                 getPendingItemID();
                 txtNote.Text = "";
@@ -279,10 +279,11 @@ namespace POS
             cmbItemID.SelectedIndex = 0;
             cmbSupID.SelectedIndex = 0;
             txtBarcode.Text = "";
-            nudQuantity.Value = 0;
             btnCompare.Visible = false;
             btnComplete.Visible = false;
             dgvItem.DataSource = null;
+            dtLoad.Rows.Clear();
+            lblError.Visible = false;
             panelNotify.Controls.Clear();
         }
 
@@ -294,33 +295,26 @@ namespace POS
         private void btnComplete_Click(object sender, EventArgs e)
         {
             DBConn Conn = new DBConn();
-            Conn.cmd.CommandText = "UPDATE Assign SET Status=@Status, Date=@Date WHERE SupID=@SupID AND [Status]=@Pending";
+            Conn.cmd.CommandText = "UPDATE Rent SET Status=@Status, RetDate=@Date WHERE SupID=@SupID AND [Status]=@Pending";
             Conn.cmd.Parameters.Add("@Status",SqlDbType.VarChar).Value = "Completed";
             Conn.cmd.Parameters.Add("@SupID", SqlDbType.VarChar).Value = cmbSupID.Text;
             Conn.cmd.Parameters.Add("@Pending", SqlDbType.VarChar).Value = "Pending";
             Conn.cmd.Parameters.Add("@Date", SqlDbType.Date).Value = DateTime.Now.ToString("yyyy-MM-dd");
             Conn.cmd.ExecuteNonQuery();
             MessageBox.Show("Successfully Saved some records !!", "Successfully Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            getSupID();
+
             btnCompare.Visible = false;
             btnComplete.Visible = false;
             dgvItem.DataSource = null;
             getSupID();
-            
+        }
 
-            /*
-            DBConn ConnRep = new DBConn();
-            ConnRep.cmd.CommandText = "SELECT Supply.ID AS SupID, Supply.Customer, Assign.Date, Assign.ItemID, Item.Name, Assign.Quantity FROM Supply LEFT JOIN Assign ON Supply.ID = Assign.SupID LEFT JOIN Item ON Assign.ItemID = Item.ID WHERE Supply.ID=@ID";
-            ConnRep.cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = cmbSupID.Text;
-            ConnRep.ada.SelectCommand = ConnRep.cmd;
-            DataTable dt = new DataTable();
-            ConnRep.ada.Fill(dt);
-
-            ReportDataSource dataSource = new ReportDataSource("dsHandOver", dt);
-            reportViewer1.LocalReport.DataSources.Clear();
-            reportViewer1.LocalReport.DataSources.Add(dataSource);
-            reportViewer1.RefreshReport();
-            */
+        private void txtBarcode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char) 13)
+            {
+                addItem();
+            }
         }
     }
 }

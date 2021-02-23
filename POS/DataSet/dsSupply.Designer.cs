@@ -287,9 +287,9 @@ namespace POS.DataSet {
             
             private global::System.Data.DataColumn columnItemID;
             
-            private global::System.Data.DataColumn columnName;
+            private global::System.Data.DataColumn columnEmpName;
             
-            private global::System.Data.DataColumn columnQuantity;
+            private global::System.Data.DataColumn columnName;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -358,17 +358,17 @@ namespace POS.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NameColumn {
+            public global::System.Data.DataColumn EmpNameColumn {
                 get {
-                    return this.columnName;
+                    return this.columnEmpName;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn QuantityColumn {
+            public global::System.Data.DataColumn NameColumn {
                 get {
-                    return this.columnQuantity;
+                    return this.columnName;
                 }
             }
             
@@ -409,15 +409,15 @@ namespace POS.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public dtSupplyRow AdddtSupplyRow(string SupID, string Customer, string Date, string ItemID, string Name, int Quantity) {
+            public dtSupplyRow AdddtSupplyRow(string SupID, string Customer, string Date, string ItemID, string EmpName, string Name) {
                 dtSupplyRow rowdtSupplyRow = ((dtSupplyRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         SupID,
                         Customer,
                         Date,
                         ItemID,
-                        Name,
-                        Quantity};
+                        EmpName,
+                        Name};
                 rowdtSupplyRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdtSupplyRow);
                 return rowdtSupplyRow;
@@ -444,8 +444,8 @@ namespace POS.DataSet {
                 this.columnCustomer = base.Columns["Customer"];
                 this.columnDate = base.Columns["Date"];
                 this.columnItemID = base.Columns["ItemID"];
+                this.columnEmpName = base.Columns["EmpName"];
                 this.columnName = base.Columns["Name"];
-                this.columnQuantity = base.Columns["Quantity"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -459,10 +459,10 @@ namespace POS.DataSet {
                 base.Columns.Add(this.columnDate);
                 this.columnItemID = new global::System.Data.DataColumn("ItemID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnItemID);
+                this.columnEmpName = new global::System.Data.DataColumn("EmpName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmpName);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
-                this.columnQuantity = new global::System.Data.DataColumn("Quantity", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnQuantity);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -669,6 +669,22 @@ namespace POS.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string EmpName {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtSupply.EmpNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EmpName\' in table \'dtSupply\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSupply.EmpNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Name {
                 get {
                     try {
@@ -680,22 +696,6 @@ namespace POS.DataSet {
                 }
                 set {
                     this[this.tabledtSupply.NameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int Quantity {
-                get {
-                    try {
-                        return ((int)(this[this.tabledtSupply.QuantityColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Quantity\' in table \'dtSupply\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tabledtSupply.QuantityColumn] = value;
                 }
             }
             
@@ -749,6 +749,18 @@ namespace POS.DataSet {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsEmpNameNull() {
+                return this.IsNull(this.tabledtSupply.EmpNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetEmpNameNull() {
+                this[this.tabledtSupply.EmpNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsNameNull() {
                 return this.IsNull(this.tabledtSupply.NameColumn);
             }
@@ -757,18 +769,6 @@ namespace POS.DataSet {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNameNull() {
                 this[this.tabledtSupply.NameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsQuantityNull() {
-                return this.IsNull(this.tabledtSupply.QuantityColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetQuantityNull() {
-                this[this.tabledtSupply.QuantityColumn] = global::System.Convert.DBNull;
             }
         }
         
